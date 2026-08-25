@@ -1,3 +1,5 @@
+// {} para descontgruir un objeto
+// Importamos la clase Producto
 const { Producto } = require("./domain");
 
 function aumentarPrecioBase(productos, monto) {
@@ -14,6 +16,14 @@ function aumentarPrecioBaseMap(productos, monto) {
 
 function precioMasAlto(productos) {
   const preciosProductos = productos.map((p) => p.precioFinal());
+  // Math.max() recibe argumentos, NO UNA LISTA.
+  // Por eso usamos (...unaLista), que deconstruye la lista en argumentos.
+  return Math.max(...preciosProductos);
+}
+
+// Obtener el producto mas caro
+function productoMasCaro(productos){
+  const preciosProductos = productos.map((p) => p.precioBase());
   return Math.max(...preciosProductos);
 }
 
@@ -27,6 +37,8 @@ function obtenerSumaTotalPrecios(productos) {
   }, 0);
 }
 
+// Usamos SORT con una funcipn lambda para poder redefinir 
+// Tenemos que definir un resultaod negativo para cambiar, uno positivo para dejar.
 function ordenarListaProductos(productos) {
   productos.sort((p1, p2) => {
     return p1.precioFinal() - p2.precioFinal();

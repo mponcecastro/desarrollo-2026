@@ -15,12 +15,19 @@ class Producto {
 
   precioFinal() {
     const precioBaseTotal = this.cantidad * this.precioBase;
+
+    // ========= FUNCION FOLD (reduce() en .js) + LAMDA ========= 
     const precioFinal = this.descuentos.reduce((precioAnterior, descuento) => {
       return (
         precioAnterior -
         descuento.valorDescontado(this.precioBase, this.cantidad)
       );
     }, precioBaseTotal);
+    // precioAnterior: acumulador 
+    // descuento: elemento de la lista que procesamos
+    // descuento.valorDescontado(...): funcion que calcula la resta
+    // precioBaseTotal: valor incial sobre el que empieza a operar
+
     return Math.max(0, precioFinal);
   }
 }
@@ -63,6 +70,7 @@ class DescuentoPorCantidad {
   }
 }
 
+// Exportacion de archivos
 module.exports = {
   Producto,
   DescuentoFijo,
