@@ -1,0 +1,27 @@
+{
+  "name": "megasuper-2c-2026",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mponcecastro/desarrollo-2026.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/mponcecastro/desarrollo-2026/issues"
+  },
+  "homepage": "https://github.com/mponcecastro/desarrollo-2026#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "zod": "^4.6.4"
+  }
+}

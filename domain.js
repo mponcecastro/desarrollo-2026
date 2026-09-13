@@ -1,4 +1,4 @@
-class Producto {
+export class Producto {
   constructor(nombre, precioBase, cantidad) {
     if (!nombre) {
       throw new Error("El producto debe tener un nombre");
@@ -7,32 +7,14 @@ class Producto {
     this.precioBase = precioBase;
     this.cantidad = cantidad;
     this.descuentos = [];
-  }
+}
 
-  agregarDescuento(nuevoDescuento) {
-    this.descuentos.push(nuevoDescuento);
-  }
-
-  precioFinal() {
-    const precioBaseTotal = this.cantidad * this.precioBase;
-
-    // ========= FUNCION FOLD (reduce() en .js) + LAMDA ========= 
-    const precioFinal = this.descuentos.reduce((precioAnterior, descuento) => {
-      return (
-        precioAnterior -
-        descuento.valorDescontado(this.precioBase, this.cantidad)
-      );
-    }, precioBaseTotal);
-    // precioAnterior: acumulador 
-    // descuento: elemento de la lista que procesamos
-    // descuento.valorDescontado(...): funcion que calcula la resta
-    // precioBaseTotal: valor incial sobre el que empieza a operar
-
-    return Math.max(0, precioFinal);
+  agregarDescuento(descuento) {
+    this.descuentos.push(descuento);
   }
 }
 
-class DescuentoFijo {
+export class DescuentoFijo {
   constructor(valor) {
     if (valor <= 0) {
       throw new Error("Un descuento no puede ser negativo.");
@@ -44,7 +26,7 @@ class DescuentoFijo {
   }
 }
 
-class DescuentoPorcentual {
+export class DescuentoPorcentual {
   constructor(porcentaje) {
     this.porcentaje = porcentaje;
   }
@@ -54,7 +36,7 @@ class DescuentoPorcentual {
   }
 }
 
-class DescuentoPorCantidad {
+export class DescuentoPorCantidad {
   constructor(cantidadMinima, porcentaje) {
     this.cantidadMinima = cantidadMinima;
     this.porcentaje = porcentaje;
@@ -70,10 +52,42 @@ class DescuentoPorCantidad {
   }
 }
 
-// Exportacion de archivos
-module.exports = {
-  Producto,
-  DescuentoFijo,
-  DescuentoPorcentual,
-  DescuentoPorCantidad,
-};
+export class Carrito {
+  constructor([items]){
+    this.items = [items];
+  }
+  
+  agregarItem(item){
+    this.items.push(item);
+  }   
+}
+
+export class ItemCarrito{
+  constructor(producto, cantidad){
+    this.producto = producto
+    this.cantidad = cantidad
+    this.descuentos = []
+  }
+
+  agregarDescuento(nuevoDescuento) {
+    this.descuentos.push(nuevoDescuento);
+  }
+
+  precioFinal() {
+    const precioBaseTotal = this.cantidad * this.producto.precioBase;
+
+    // ========= FUNCION FOLD (reduce() en .js) + LAMDA ========= 
+    const precioFinal = this.descuentos.reduce((precioAnterior, descuento) => {
+      return (
+        precioAnterior -
+        descuento.valorDescontado(this.producto.precioBase, this.cantidad)
+      );
+    }, precioBaseTotal);
+    // precioAnterior: acumulador 
+    // descuento: elemento de la lista que procesamos
+    // descuento.valorDescontado(...): funcion que calcula la resta
+    // precioBaseTotal: valor incial sobre el que empieza a operar
+
+    return Math.max(0, precioFinal);
+  }
+}

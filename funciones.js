@@ -1,55 +1,41 @@
-// {} para descontgruir un objeto
-// Importamos la clase Producto
-const { Producto } = require("./domain");
+import { Producto } from "./domain.js";
 
-function aumentarPrecioBase(productos, monto) {
-  productos.forEach((producto) => {
-    producto.precioBase = producto.precioBase + monto;
+export function aumentarPrecioBase(carrito, monto) {
+  carrito.forEach((item) => {
+    item.producto.precioBase = item.producto.precioBase + monto;
   });
 }
 
-function aumentarPrecioBaseMap(productos, monto) {
-  return productos.map(
-    (p) => new Producto(p.nombre, p.precioBase + monto, p.cantidad),
+export function aumentarPrecioBaseMap(carrito, monto) {
+  return carrito.map(
+    (item) => new Producto(item.producto.nombre, item.producto.precioBase + monto, item.cantidad),
   );
 }
 
-function precioMasAlto(productos) {
-  const preciosProductos = productos.map((p) => p.precioFinal());
+export function precioMasAlto(carrito) {
+  const preciosProductos = carrito.map((item) => item.precioFinal());
   // Math.max() recibe argumentos, NO UNA LISTA.
   // Por eso usamos (...unaLista), que deconstruye la lista en argumentos.
   return Math.max(...preciosProductos);
 }
 
 // Obtener el producto mas caro
-function productoMasCaro(productos){
-  const preciosProductos = productos.map((p) => p.precioBase());
+export function productoMasCaro(carrito){
+  const preciosProductos = carrito.map((item) => item.precioFinal());
   return Math.max(...preciosProductos);
 }
 
-function productosMasBaratosQue(productos, precioMaximo) {
-  return productos.filter((p) => p.precioFinal() <= precioMaximo);
+export function productosMasBaratosQue(carrito, precioMaximo) {
+  return carrito.filter((item) => item.precioFinal() <= precioMaximo);
 }
 
-function obtenerSumaTotalPrecios(productos) {
-  return productos.reduce((precioAnterior, productoActual) => {
-    return precioAnterior + productoActual.precioFinal();
-  }, 0);
+export function obtenerSumaTotalPrecios(carrito) {
+    return carrito.reduce((total, item) => total + item.precioFinal(), 0);
 }
 
 // Usamos SORT con una funcipn lambda para poder redefinir 
 // Tenemos que definir un resultaod negativo para cambiar, uno positivo para dejar.
-function ordenarListaProductos(productos) {
-  productos.sort((p1, p2) => {
-    return p1.precioFinal() - p2.precioFinal();
-  });
+export function ordenarCarrito(carrito) {
+    carrito.sort((a, b) => a.precioFinal() - b.precioFinal());
 }
 
-module.exports = {
-  aumentarPrecioBase,
-  aumentarPrecioBaseMap,
-  precioMasAlto,
-  productosMasBaratosQue,
-  obtenerSumaTotalPrecios,
-  ordenarListaProductos,
-};
